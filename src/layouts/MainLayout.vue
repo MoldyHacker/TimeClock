@@ -12,10 +12,10 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          {{ appName }}
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>TC v{{ appVersion }}</div>
       </q-toolbar>
     </q-header>
 
@@ -23,6 +23,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      behavior="mobile"
     >
       <q-list>
         <q-item-label
@@ -48,6 +49,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import { version, productName } from '../../package.json';
 
 const linksList = [
   {
@@ -106,6 +108,8 @@ export default defineComponent({
 
     return {
       essentialLinks: linksList,
+      appVersion: version,
+      appName: productName,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value

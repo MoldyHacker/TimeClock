@@ -3,12 +3,12 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: "KeyButton",
-  props: ['color'],
+  props: ['color', 'text'],
 })
 </script>
 
 <template>
-  <q-btn :color="color" size="30px 40px" padding="30px 40px" unelevated square>
+  <q-btn :color="color" :text-color="text" size="30px 40px" padding="30px 60px" unelevated square>
     <slot/>
   </q-btn>
 </template>

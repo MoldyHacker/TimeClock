@@ -1,17 +1,21 @@
 <script>
 import {defineComponent} from 'vue';
-import InputIndicator from 'components/InputIndicator.vue';
 
 export default defineComponent({
   name: "InputDisplay",
-  components: {InputIndicator},
-  props: ['count'],
+  props: ['input'],
 })
 </script>
 
 <template>
-  <div class="inline-block q-px-lg" v-for="indicator in 6" :key="indicator">
-    <input-indicator />
+  <div class="inline-block">
+    <q-icon
+      v-for="(icon, index) in 6"
+      :key="index"
+      :name="index < input.length ? 'radio_button_checked' : 'radio_button_unchecked'"
+      class="q-mr-sm q-px-lg"
+      color="white"
+    />
   </div>
 </template>
 
