@@ -5,6 +5,7 @@ import AuthUser from 'src/models/AuthUser';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     authUser: null,
+    company: null,
   }),
 
   getters: {

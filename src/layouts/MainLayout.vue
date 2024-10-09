@@ -26,11 +26,42 @@
       behavior="mobile"
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        <q-img v-if="authUser" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+          <div class="absolute-bottom bg-transparent col">
+            <q-avatar size="56px" class="q-mb-sm" @click="pushToProfileSettings">
+              <q-tooltip>Profile</q-tooltip>
+              <img class="cursor-pointer" :src="authUser.photoURL">
+            </q-avatar>
+            <div class="text-weight-bold">{{ authUser.displayName }}</div>
+            <div>{{ authUser.email }}</div>
+          </div>
+
+          <div class="absolute-top-right transparent cursor-pointer">
+            <q-icon name="settings" size="24px" @click="pushToSiteSettings">
+              <q-tooltip>
+                Site Settings
+              </q-tooltip>
+            </q-icon>
+          </div>
+
+          <div class="absolute-bottom-right transparent cursor-pointer">
+            <q-icon v-if="authUser" name="logout" size="24px" @click="logout">
+              <q-tooltip>
+                Logout
+              </q-tooltip>
+            </q-icon>
+          </div>
+        </q-img>
+        <div v-else class="q-mt-md q-px-lg justify-center cursor-pointer" @click="login">
+          <q-icon class="" name="login" size="24px" >
+            <q-tooltip>
+              Login
+            </q-tooltip>
+          </q-icon>
+          <span class="text-bold text-subtitle1">
+            Login
+          </span>
+        </div>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -57,48 +88,11 @@ const linksList = [
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
   }
 ]
 
 export default defineComponent({
   name: 'MainLayout',
-
   components: {
     EssentialLink
   },
