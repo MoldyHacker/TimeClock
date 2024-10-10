@@ -43,7 +43,7 @@ export default defineComponent({
   components: {InputDisplay, KeyPad},
   mounted() {
     this.initCamera()
-    console.log(this.formattedDate)
+    // console.log(this.formattedDate)
     // setInterval(this.formattedTime, 1000)
   },
   data(){
@@ -72,8 +72,7 @@ export default defineComponent({
         case 6:
         case 8:
         case 9:
-          if (this.passcode.length < 6)
-            this.passcode.push(e);
+          this.passcode.push(e);
           break;
         case 'clear':
           this.passcode = [];
@@ -84,12 +83,29 @@ export default defineComponent({
         default:
           break;
       }
+      console.log(this.passcode)
+      if (this.passcode.length === 6) {
+        // this.checkPasscode(this.passcode)
+        alert(this.passcode)
+        this.passcode = []
+      }
+    },
+    checkPasscode(passcode){
+      db.collection('passcodes').doc(passcode.join('')).get()
+        .then(doc => {
+          if (doc.exists) {
+            alert('Access Granted')
+          } else {
+            alert('Access Denied')
+          }
+        })
     },
     initCamera(){
       navigator.mediaDevices.getUserMedia({
-        video: false
-      }).then(stream => {this.$refs.video.srcObject = stream}).catch(err => {
-        console.error("Error accessing the camera", err);
+        video: true   // set to true to enable video
+      })
+        .then(stream => {this.$refs.video.srcObject = stream})
+        .catch(err => {console.error("Error accessing the camera", err);
       })
     },
   }

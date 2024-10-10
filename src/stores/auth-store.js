@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
 import { auth, db } from "boot/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import AuthUser from 'src/models/AuthUser';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    authUser: null,
-    company: null,
+    company: 'DNpEwXjePUjqaVIass8u', // normally this would be null
+    employees: [],
+    employee: null,
   }),
 
   getters: {
@@ -75,5 +77,22 @@ export const useAuthStore = defineStore('auth', {
           // ..
         });
     },
+
+    async getCompany() {
+
+      if (this.authUser) {
+        const company = await db.collection('companies').doc(this.authUser.uid).get();
+        this.company = company.data();
+      }
+    },
+
+    checkPasscode(passcode) {
+      if (this.company.passcode === passcode) {
+        this.company = null;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 })
