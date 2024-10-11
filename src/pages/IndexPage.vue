@@ -1,6 +1,8 @@
 <template>
-  <q-page class="flex flex-center bg-purple-9">
-    <div class="absolute-top-right q-mr-xl q-mt-xl">
+  <q-page class="content-center bg-purple-9">
+
+<!-- Login Page -->
+    <div v-show="showDiv" class="absolute-top-right q-mr-xl q-mt-xl">
       <div class="camera-frame">
         <video
           ref="video"
@@ -10,7 +12,7 @@
         />
       </div>
     </div>
-    <div class="column">
+    <div v-show="showDiv" class="column">
       <h4 class="text-center text-white">Enter your PIN for: <br>
         <strong>{{ companyName }}</strong>
       </h4>
@@ -20,6 +22,32 @@
         <key-pad color="white" text="black" @key-press="keyPress" />
       </div>
     </div>
+
+<!--    Clock in / out page-->
+    <div v-show="!showDiv" class="row justify-evenly items-center">
+      <div class="col-2">
+        <div class="camera-frame">
+          <video
+            ref="video"
+            class="full-height"
+            autoplay
+            playsinline
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="text-h4 text-white">Good morning, Chris</div>
+        <div class="text-h5 text-white">Please clock in to start your shift</div>
+        <q-btn size="xl" class="punchBtn btn-fixed-width q-my-sm" align="left" label="Clock In" icon="mdi-clock-outline" icon-right="mdi-arrow-right">
+        </q-btn>
+        <br>
+        <q-btn size="md" class="cancelBtn q-my-sm" icon="mdi-arrow-left" label="Cancel">
+        </q-btn>
+      </div>
+    </div>
+
+
+<!-- Date and Time -->
     <div class="absolute-bottom-left text-white text-subtitle1 q-mb-xl q-ml-xl">
       <div class="text-subtitle1">
         {{formattedDate}}
@@ -49,7 +77,8 @@ export default defineComponent({
   data(){
     return{
       passcode: [],
-      companyName: 'Myshock Tool & Die Corporation'
+      companyName: 'Myshock Tool & Die Corporation',
+      showDiv: true,
     }
   },
   computed: {
@@ -102,7 +131,7 @@ export default defineComponent({
     },
     initCamera(){
       navigator.mediaDevices.getUserMedia({
-        video: true   // set to true to enable video
+        video: false   // set to true to enable video
       })
         .then(stream => {this.$refs.video.srcObject = stream})
         .catch(err => {console.error("Error accessing the camera", err);
@@ -126,5 +155,17 @@ video {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.punchBtn {
+  background-color: #6200ea;
+  color: white;
+  border-radius: 5px;
+  border: grey 1px solid;
+  width: 250px;
+}
+.cancelBtn {
+  background-color: #6200ea;
+  color: white;
+  border-radius: 5px;
 }
 </style>
